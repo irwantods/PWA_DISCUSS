@@ -124,9 +124,11 @@ function showTeam(data) {
         teamElement.innerHTML += `
         <div class="col s12 m6 team-card">
             <div class="card">
+            <a href="./pages/detail-team.html?id=${team.id}">
                 <div class="card-image team-img waves-effect waves-block waves-light">
                     <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" class="responsive-img"/>
                 </div> 
+                </a>
                     <div class="card-content center-align">
                         <h6 class="black-text">${team.name}</h6>
                         <p>${team.founded}</p>
@@ -140,4 +142,31 @@ function showTeam(data) {
         </div>
         `;
     });
+}
+
+function getTeamById() {
+    // Ambil nilai query parameter (?id=)
+    var urlParams = new URLSearchParams(window.location.search);
+    var idParam = urlParams.get("id");
+    fetch(base_url + "./pages/detail-team/" + idParam)
+        .then(status)
+        .then(json)
+        .then(function(data) {
+            // Objek JavaScript dari response.json() masuk lewat variabel data.
+            console.log(data);
+            // Menyusun komponen card artikel secara dinamis
+            var teamHTML = `
+            <div class="card">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" />
+              </div>
+              <div class="card-content">
+                <span class="card-title">${team.name}</span>
+                ${snarkdown(team.founded)}
+              </div>
+            </div>
+          `;
+            // Sisipkan komponen card ke dalam elemen dengan id #content
+            document.getElementById("body-content").innerHTML = teamHTML;
+        });
 }

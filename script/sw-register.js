@@ -13,8 +13,3 @@
  } else {
      console.log("Browser Belum Mendukung Fitur ServiceWorker");
  }
- // REQUEST API UNTUK PERTAMA KALI
- document.addEventListener("DOMContentLoaded", function() {
-     getAllStandings();
-     getAllTeam();
- });

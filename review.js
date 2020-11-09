@@ -1,42 +1,29 @@
-self.addEventListener("install", function(event) {
-    self.skipWaiting();
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(function(cache) {
-            return cache.addAll(urlsToCache);
-        })
-    );
-});
-self.addEventListener("activate", function(event) {
-    event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(
-                cacheNames.map(function(cacheName) {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log("ServiceWorker: cache " + cacheName + " dihapus");
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
-});
+function getArticles() {
 
-self.addEventListener("fetch", function(event) {
-    const base_url = "https://api.football-data.org/v2/";
-    if (event.request.url.indexOf(base_url) > -1) {
-        event.respondWith(
-            caches.open(CACHE_NAME).then(function(cache) {
-                return fetch(event.request).then(function(response) {
-                    cache.put(event.request.url, response.clone());
-                    return response;
-                })
-            })
-        );
-    } else {
-        event.respondWith(
-            caches.match(event.request, { 'ignoreSearch': true }).then(function(response) {
-                return response || fetch(event.request);
-            })
-        )
-    }
-});
+    fetch(base_url + "articles")
+        .then(status)
+        .then(json)
+        .then(function(data) {
+            // Objek/array JavaScript dari response.json() masuk lewat data.
+            // Menyusun komponen card artikel secara dinamis
+            var articlesHTML = "";
+            data.result.forEach(function(article) {
+                articlesHTML += `
+                <div class="card">
+                  <a href="./article.html?id=${article.id}">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img src="${article.thumbnail}" />
+                    </div>
+                  </a>
+                  <div class="card-content">
+                    <span class="card-title truncate">${article.title}</span>
+                    <p>${article.description}</p>
+                  </div>
+                </div>
+              `;
+            });
+            // Sisipkan komponen card ke dalam elemen dengan id #content
+            document.getElementById("articles").innerHTML = articlesHTML;
+        })
+        .catch(error);
+}

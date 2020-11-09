@@ -16,6 +16,10 @@ var urlsToCache = [
     "https://fonts.googleapis.com/icon?family=Material+Icons",
     "/asset/css/PatrickHand-Regular.ttf",
     // aset image home
+    "./asset/img/10.webp",
+    "./asset/img/8.webp",
+    "./asset/img/5.webp",
+    "./asset/img/2.webp",
     "./asset/img/11.webp",
     "./asset/img/3.webp",
     "./asset/img/save.png",
@@ -75,7 +79,7 @@ self.addEventListener("fetch", function(event) {
         );
     } else {
         event.respondWith(
-            caches.match(event.request, { 'ignoreSearch': true }).then(function(response) {
+            caches.match(event.request).then(function(response) {
                 return response || fetch(event.request);
             })
         )

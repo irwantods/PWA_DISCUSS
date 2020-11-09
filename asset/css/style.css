@@ -1,0 +1,25 @@
+main {
+    font-family: 'Patrick Hand', cursive;
+}
+
+.parallax-container {
+    width: 100%;
+}
+
+.navbar-fixed {
+    position: sticky;
+    top: 0 !important;
+    z-index: 33;
+    background-color: white !important;
+}
+
+.team-card .card {
+    max-width: 100% !important;
+    min-height: 330px !important;
+}
+
+.team-img img {
+    max-width: 200px !important;
+    margin: 0 auto !important;
+    padding: 20px 0 !important;
+}

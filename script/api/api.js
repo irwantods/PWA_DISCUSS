@@ -149,14 +149,12 @@ function getTeamById() {
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
 
-
         if ("caches" in window) {
-            caches.match(base_url + "teams/" + idParam).then(function(response) {
+            caches.match(BASE_URL + "teams/" + idParam).then(function(response) {
                 if (response) {
                     response.json().then(response => response.json())
                         .then(team => {
                             let squads = '';
-
                             team.squad.forEach((squad) => {
                                 squads += `
             <tr>
@@ -171,7 +169,6 @@ function getTeamById() {
                             })
                             const teamHTML =
                                 `
-                        
                 <div class="row">
                 <div class="col s12 m3">
                     <div class="row">
@@ -216,6 +213,8 @@ function getTeamById() {
                 `;
                             // Sisipkan komponen card ke dalam elemen dengan id #content
                             document.getElementById("body-content").innerHTML = articleHTML;
+                            // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
+                            resolve(data);
                         });
                 }
             });

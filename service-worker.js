@@ -28,9 +28,11 @@ var urlsToCache = [
     "./asset/img/update.png",
     "./asset/img/6.webp",
     //file JS
-    "/script/materialize/materialize.min.js",
+    "/script/preloader.js",
+    "/script/save-team.js",
     "/script/nav.js",
     "/script/sw-register.js",
+    "/script/materialize/materialize.min.js",
     "/script/api/api.js",
     "/script/idb/idb.js",
     "/script/idb/db.js",

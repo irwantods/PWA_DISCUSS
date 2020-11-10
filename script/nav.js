@@ -72,10 +72,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         });
                     }
                     // Slider berakhir
-
                     if (page === 'standing') {
-                        getAllStandings();
-                    } else if (page === 'team') {
+                        loadStanding()
+                    }
+
+
+                    if (page === 'team') {
                         getAllTeam();
                     }
                 } else if (this.status == 404) {

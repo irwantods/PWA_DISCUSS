@@ -14,6 +14,7 @@ var urlsToCache = [
     "/asset/css/materialize.min.css",
     "/asset/css/style.css",
     "https://fonts.googleapis.com/icon?family=Material+Icons",
+    "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
     "/asset/css/PatrickHand-Regular.ttf",
     // aset image home
     "./asset/img/10.webp",
@@ -31,6 +32,8 @@ var urlsToCache = [
     "/script/nav.js",
     "/script/sw-register.js",
     "/script/api/api.js",
+    "/script/idb/idb.js",
+    "/script/idb/db.js",
     //icon
     "./soccer-ball-128.ico",
     "./asset/img/soccer-ball-512.png",
@@ -79,7 +82,7 @@ self.addEventListener("fetch", function(event) {
         );
     } else {
         event.respondWith(
-            caches.match(event.request).then(function(response) {
+            caches.match(event.request, { ignoreSearch: true }).then(function(response) {
                 return response || fetch(event.request);
             })
         )

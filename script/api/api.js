@@ -144,20 +144,95 @@ function showTeam(data) {
 
 // render detail team
 function getTeamById() {
-    // Ambil nilai query parameter (?id=)
-    const urlParams = new URLSearchParams(window.location.search);
-    const idParam = urlParams.get("id")
+    return new Promise(function(resolve, reject) {
+        // Ambil nilai query parameter (?id=)
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get("id");
 
-    fetch(`${BASE_URL}teams/${idParam}`, {
-        headers: { 'X-Auth-Token': API_KEY }
-    })
 
-    .then(response => response.json())
-        .then(team => {
-            let squads = '';
+        if ("caches" in window) {
+            caches.match(base_url + "teams/" + idParam).then(function(response) {
+                if (response) {
+                    response.json().then(response => response.json())
+                        .then(team => {
+                            let squads = '';
 
-            team.squad.forEach((squad) => {
-                squads += `
+                            team.squad.forEach((squad) => {
+                                squads += `
+            <tr>
+              <td>${squad.name}</td>
+              <td>${squad.position}</td>
+              <td>${squad.dateOfBirth}</td>
+              <td>${squad.countryOfBirth}</td>
+              <td>${squad.nationality}</td>
+              <td>${squad.role}</td>
+             </tr>
+          `;
+                            })
+                            const teamHTML =
+                                `
+                        
+                <div class="row">
+                <div class="col s12 m3">
+                    <div class="row">
+                        <div class="col s12 ">
+                            <div class="card">
+                                <div class="card-image team-img">
+                                    <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="64" alt="team-logo"/>
+                                </div>
+                                     <div class="card-content center-align">
+                                        <h6 class="black-text">${team.name}</h6>
+                                        <p>Active Competitions : ${team.activeCompetitions[0].name}</p>
+                                        <p>Club Colors : ${team.clubColors}</p>
+                                        <p>address : ${team.address}</p>
+                                        <p>Website : <a href="${team.website}">${team.website}</a> </p>
+                                        <p>Venue : ${team.venue}</p>
+                                        <p>Founded : ${team.founded}</p>
+                                        <p>Phone : ${team.phone}</p>
+                                        <p>lastUpdated : ${team.lastUpdated}</p>                             
+                                    </div>
+                            </div>
+                        </div>
+                    </div> 
+                 </div>
+                <div class="col s12 m9">
+                    <h3 class="black-text">Squad List</h3>
+                        <table class="striped responsive-table">
+                            <thead>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Date Of Birth</th>
+                                <th>Country Of Birth</th>
+                                <th>Nationality</th>
+                                <th>Role</th>
+                            </thead>
+                            <tbody id="squad">
+                                ${squads}
+                            </tbody>    
+                    </table>
+                </div>
+
+            </div>
+                `;
+                            // Sisipkan komponen card ke dalam elemen dengan id #content
+                            document.getElementById("body-content").innerHTML = articleHTML;
+                        });
+                }
+            });
+        }
+
+
+        fetch(`${BASE_URL}teams/${idParam}`, {
+            headers: { 'X-Auth-Token': API_KEY }
+        })
+
+
+        .then(response => response.json())
+            .then(team => {
+                let squads = '';
+
+                team.squad.forEach((squad) => {
+                    squads += `
     <tr>
       <td>${squad.name}</td>
       <td>${squad.position}</td>
@@ -167,9 +242,9 @@ function getTeamById() {
       <td>${squad.role}</td>
      </tr>
   `;
-            })
-            const teamHTML =
-                `
+                })
+                const teamHTML =
+                    `
                 <div class="row">
                     <div class="col s12 m3">
                         <div class="row">
@@ -180,7 +255,7 @@ function getTeamById() {
                                     </div>
                                          <div class="card-content center-align">
                                             <h6 class="black-text">${team.name}</h6>
-                                            <p>Competitions : ${team.activeCompetitions.name}</p>
+                                            <p>Active Competitions : ${team.activeCompetitions[0].name}</p>
                                             <p>Club Colors : ${team.clubColors}</p>
                                             <p>address : ${team.address}</p>
                                             <p>Website : <a href="${team.website}">${team.website}</a> </p>
@@ -213,7 +288,13 @@ function getTeamById() {
                 </div>`
 
 
-            document.getElementById("body-content").innerHTML = teamHTML
-        })
+                document.getElementById("body-content").innerHTML = teamHTML;
+                // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
+                resolve(data);
+
+            });
+
+    });
+
 
 }

@@ -23,7 +23,7 @@
     <nav class="teal white navbar-fixed transparent z-depth-0" role="navigation">
         <div class="nav-wrapper">
             <a id="logo-container" href="#" class="brand-logo"></a>
-            <a href="/index.html" class="sidenav-trigger black-text" data-target="nav-mobile">
+            <a href="/index.html#team" class="sidenav-trigger black-text" data-target="nav-mobile">
                 <i class="material-icons">arrow_back</i>
             </a>
             <ul class="topnav right hide-on-med-and-down"></ul>
@@ -31,14 +31,44 @@
     </nav>
     <ul class="sidenav" id="nav-mobile"></ul>
     <!-- Akhir Navigasi -->
+
     <div id="body-content"></div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large" id="save">
+            <i class="large material-icons">save</i>
+        </a>
+    </div>
     <script type="text/javascript" src="https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js"></script>
     <script src="/script/materialize/materialize.min.js"></script>
     <script src="/script/sw-register.js"></script>
     <script src="/script/api/api.js"></script>
+    <div class="preloader-background">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             getTeamById();
+
+            function() {
+                $('.preloader-background').delay(1700).fadeOut('slow');
+
+                $('.preloader-wrapper')
+                    .delay(1700)
+                    .fadeOut();
+            }
         });
     </script>
 

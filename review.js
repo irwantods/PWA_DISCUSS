@@ -1,29 +1,76 @@
-function getArticles() {
+<
+div class = "row" >
+    <
+    div class = "col s12 m3" >
+    <
+    div class = "row" >
+    <
+    div class = "col s12 team-card" >
+    <
+    div class = "card" >
+    <
+    div class = "card-image team-img" >
+    <
+    img src = "${crestUrl}"
+class = "responsive-img"
+width = "64"
+alt = "team-logo" / >
+    <
+    div class = "divider" > < /div> <
+    a id = "favorite-${result.id}"
+class = "btn-floating halfway-fab waves-effect waves-light red" > < i class = "material-icons" > favorite < /i></a >
+    <
+    /div> <
+    div class = "card-content center-align" >
+    <
+    h6 class = "black-text" > $ { result.name } - $ { result.shortName } < /h6> <
+    p > $ { result.address } < /p> <
+    a href = "${result.website}" > $ { result.website } < /a> <
+    p > $ { result.venue } < /p> <
+    p > $ { result.founded } < /p> <
+    p > $ { result.phone } < /p> <
+    p > $ { result.email } < /p> <
+    /div> <
+    /div> <
+    /div> <
+    /div> <
+    /div>
 
-    fetch(base_url + "articles")
-        .then(status)
-        .then(json)
-        .then(function(data) {
-            // Objek/array JavaScript dari response.json() masuk lewat data.
-            // Menyusun komponen card artikel secara dinamis
-            var articlesHTML = "";
-            data.result.forEach(function(article) {
-                articlesHTML += `
-                <div class="card">
-                  <a href="./article.html?id=${article.id}">
-                    <div class="card-image waves-effect waves-block waves-light">
-                      <img src="${article.thumbnail}" />
-                    </div>
-                  </a>
-                  <div class="card-content">
-                    <span class="card-title truncate">${article.title}</span>
-                    <p>${article.description}</p>
-                  </div>
-                </div>
-              `;
-            });
-            // Sisipkan komponen card ke dalam elemen dengan id #content
-            document.getElementById("articles").innerHTML = articlesHTML;
-        })
-        .catch(error);
-}
+
+<
+div class = "col s12 m9" >
+
+    <
+    h3 class = "center-align black-text" > Kompetisi Aktif < /h3> <
+    table >
+    <
+    thead >
+    <
+    th > Area < /th> <
+    th > Kompetisi < /th> <
+    /thead> <
+    tbody id = "comp" > < /tbody>   <
+    /table>
+
+<
+div class = "divider" > < /div> <
+    h3 class = "center black-text" > Squad Tim < /h3> <
+    table >
+    <
+    thead >
+    <
+    th > Nama < /th> <
+    th > Posisi < /th> <
+    th > Tanggal Lahir < /th> <
+    th > Negara Asal < /th> <
+    th > Role < /th> <
+    /thead> <
+    tbody id = "squad" > < /tbody>     <
+    /table>
+
+
+<
+/div>
+
+<
+/div>

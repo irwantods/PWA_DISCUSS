@@ -6,7 +6,6 @@ const LEAGUE_ID = 2019;
 const ENDPOINT_COMPETITION = `${BASE_URL}competitions/${LEAGUE_ID}/standings`;
 const ENDPOINT_TEAM = `${BASE_URL}competitions/${LEAGUE_ID}/teams`;
 
-
 const fetchAPI = url => {
     return fetch(url, {
             headers: {
@@ -106,7 +105,6 @@ function getAllTeam() {
             }
         })
     }
-
     fetchAPI(ENDPOINT_TEAM)
         .then(data => {
             showTeam(data);
@@ -144,29 +142,78 @@ function showTeam(data) {
     });
 }
 
+// render detail team
 function getTeamById() {
     // Ambil nilai query parameter (?id=)
-    var urlParams = new URLSearchParams(window.location.search);
-    var idParam = urlParams.get("id");
-    fetch(base_url + "./pages/detail-team/" + idParam)
-        .then(status)
-        .then(json)
-        .then(function(data) {
-            // Objek JavaScript dari response.json() masuk lewat variabel data.
-            console.log(data);
-            // Menyusun komponen card artikel secara dinamis
-            var teamHTML = `
-            <div class="card">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" />
-              </div>
-              <div class="card-content">
-                <span class="card-title">${team.name}</span>
-                ${snarkdown(team.founded)}
-              </div>
-            </div>
-          `;
-            // Sisipkan komponen card ke dalam elemen dengan id #content
-            document.getElementById("body-content").innerHTML = teamHTML;
-        });
+    const urlParams = new URLSearchParams(window.location.search);
+    const idParam = urlParams.get("id")
+
+    fetch(`${BASE_URL}teams/${idParam}`, {
+        headers: { 'X-Auth-Token': API_KEY }
+    })
+
+    .then(response => response.json())
+        .then(team => {
+            let squads = '';
+
+            team.squad.forEach((squad) => {
+                squads += `
+    <tr>
+      <td>${squad.name}</td>
+      <td>${squad.position}</td>
+      <td>${squad.dateOfBirth}</td>
+      <td>${squad.countryOfBirth}</td>
+      <td>${squad.nationality}</td>
+      <td>${squad.role}</td>
+     </tr>
+  `;
+            })
+            const teamHTML =
+                `
+                <div class="row">
+                    <div class="col s12 m3">
+                        <div class="row">
+                            <div class="col s12 ">
+                                <div class="card">
+                                    <div class="card-image team-img">
+                                        <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="64" alt="team-logo"/>
+                                    </div>
+                                         <div class="card-content center-align">
+                                            <h6 class="black-text">${team.name}</h6>
+                                            <p>Competitions : ${team.activeCompetitions.name}</p>
+                                            <p>Club Colors : ${team.clubColors}</p>
+                                            <p>address : ${team.address}</p>
+                                            <p>Website : <a href="${team.website}">${team.website}</a> </p>
+                                            <p>Venue : ${team.venue}</p>
+                                            <p>Founded : ${team.founded}</p>
+                                            <p>Phone : ${team.phone}</p>
+                                            <p>lastUpdated : ${team.lastUpdated}</p>                             
+                                        </div>
+                                </div>
+                            </div>
+                        </div> 
+                     </div>
+                    <div class="col s12 m9">
+                        <h3 class="black-text">Squad List</h3>
+                            <table class="striped responsive-table">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Country Of Birth</th>
+                                    <th>Nationality</th>
+                                    <th>Role</th>
+                                </thead>
+                                <tbody id="squad">
+                                    ${squads}
+                                </tbody>    
+                        </table>
+                    </div>
+  
+                </div>`
+
+
+            document.getElementById("body-content").innerHTML = teamHTML
+        })
+
 }

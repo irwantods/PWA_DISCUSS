@@ -72,13 +72,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         });
                     }
                     // Slider berakhir
+
                     if (page === 'standing') {
-                        loadStanding()
-                    }
-
-
-                    if (page === 'team') {
+                        getAllStandings();
+                    } else if (page === 'team') {
                         getAllTeam();
+                    } else if (page === "saved") {
+                        getSavedTeams();
                     }
                 } else if (this.status == 404) {
                     content.innerHTML = "<p>Ooooops............. Halaman tidak ditemukan.</p>";

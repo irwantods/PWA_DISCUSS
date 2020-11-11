@@ -15,7 +15,7 @@ var urlsToCache = [
     "/asset/css/style.css",
     "https://fonts.googleapis.com/icon?family=Material+Icons",
     "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
-    "/asset/css/PatrickHand-Regular.ttf",
+    "/asset/css/Quicksand-VariableFont_wght.ttf",
     // aset image home
     "./asset/img/10.webp",
     "./asset/img/8.webp",

@@ -1,7 +1,7 @@
 const API_KEY = "f22f93fc8c044a9fb6f67dbb29dc7385";
 const BASE_URL = "https://api.football-data.org/v2/";
 
-const LEAGUE_ID = 2019;
+const LEAGUE_ID = 2021;
 
 const ENDPOINT_COMPETITION = `${BASE_URL}competitions/${LEAGUE_ID}/standings`;
 const ENDPOINT_TEAM = `${BASE_URL}competitions/${LEAGUE_ID}/teams`;
@@ -149,10 +149,11 @@ function getTeamById() {
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
 
+
         if ("caches" in window) {
-            caches.match(BASE_URL + "teams/" + idParam).then(function(response) {
+            caches.match(`${BASE_URL}teams/${idParam}`).then(function(response) {
                 if (response) {
-                    response.json().then(response => response.json())
+                    response.json()
                         .then(team => {
                             let squads = '';
                             team.squad.forEach((squad) => {
@@ -212,9 +213,9 @@ function getTeamById() {
             </div>
                 `;
                             // Sisipkan komponen card ke dalam elemen dengan id #content
-                            document.getElementById("body-content").innerHTML = articleHTML;
+                            document.getElementById("body-content").innerHTML = teamHTML;
                             // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
-                            resolve(data);
+                            resolve(team);
                         });
                 }
             });
@@ -228,6 +229,7 @@ function getTeamById() {
 
         .then(response => response.json())
             .then(team => {
+                console.log(team);
                 let squads = '';
 
                 team.squad.forEach((squad) => {
@@ -285,15 +287,46 @@ function getTeamById() {
                     </div>
   
                 </div>`
-
-
                 document.getElementById("body-content").innerHTML = teamHTML;
                 // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
-                resolve(data);
+                resolve(team);
 
             });
 
     });
 
 
+}
+
+function getSavedTeams() {
+    getAll().then(function(teams) {
+        console.log(teams);
+        // Menyusun komponen card artikel secara dinamis
+        var teamsHTML = "";
+        teams.forEach(function(team) {
+            var description = team.post_content.substring(0, 100);
+            teamsHTML += `
+            <div class="col s12 m6 team-card">
+                <div class="card">
+                <a href="./pages/detail-team.html?id=${team.id}">
+                    <div class="card-image team-img waves-effect waves-block waves-light">
+                        <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" class="responsive-img"/>
+                    </div> 
+                    </a>
+                        <div class="card-content center-align">
+                            <h6 class="black-text">${team.name}</h6>
+                            <p>${team.founded}</p>
+                            <p>${team.clubColors}</p>
+                            <p>${team.venue}</p>
+                            <p>${team.address}</p>
+                            <p>${team.phone}</p>
+                            <a href="${team.website}">${team.website}</a>
+                        </div>
+                    </div>
+            </div>            
+            `;
+        });
+        // Sisipkan komponen card ke dalam elemen dengan id #body-content
+        document.getElementById("body-content").innerHTML = teamsHTML;
+    });
 }

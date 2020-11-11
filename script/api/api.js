@@ -304,11 +304,11 @@ function getSavedTeams() {
         // Menyusun komponen card artikel secara dinamis
         var teamsHTML = "";
         teams.forEach(function(team) {
-            var description = team.post_content.substring(0, 100);
+            // var description = team.post_content.substring(0, 100);
             teamsHTML += `
             <div class="col s12 m6 team-card">
                 <div class="card">
-                <a href="./pages/detail-team.html?id=${team.id}">
+                <a href="./pages/detail-team.html?id=${team.id}&saved=true">
                     <div class="card-image team-img waves-effect waves-block waves-light">
                         <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" class="responsive-img"/>
                     </div> 
@@ -328,5 +328,58 @@ function getSavedTeams() {
         });
         // Sisipkan komponen card ke dalam elemen dengan id #body-content
         document.getElementById("body-content").innerHTML = teamsHTML;
+    });
+}
+
+function getSavedTeamById() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var idParam = urlParams.get("id");
+
+    getTeamById(idParam).then(function(team) {
+        const teamHTML = `
+        <div class="row">
+                    <div class="col s12 m3">
+                        <div class="row">
+                            <div class="col s12 ">
+                                <div class="card">
+                                    <div class="card-image team-img">
+                                        <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="64" alt="team-logo"/>
+                                    </div>
+                                         <div class="card-content center-align">
+                                            <h6 class="black-text">${team.name}</h6>
+                                            <p>Active Competitions : ${team.activeCompetitions[0].name}</p>
+                                            <p>Club Colors : ${team.clubColors}</p>
+                                            <p>address : ${team.address}</p>
+                                            <p>Website : <a href="${team.website}">${team.website}</a> </p>
+                                            <p>Venue : ${team.venue}</p>
+                                            <p>Founded : ${team.founded}</p>
+                                            <p>Phone : ${team.phone}</p>
+                                            <p>lastUpdated : ${team.lastUpdated}</p>                             
+                                        </div>
+                                </div>
+                            </div>
+                        </div> 
+                     </div>
+                    <div class="col s12 m9">
+                        <h3 class="black-text">Squad List</h3>
+                            <table class="striped responsive-table">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Country Of Birth</th>
+                                    <th>Nationality</th>
+                                    <th>Role</th>
+                                </thead>
+                                <tbody id="squad">
+                                </tbody>    
+                        </table>
+                    </div>
+  
+                </div>
+      
+    `;
+        // Sisipkan komponen card ke dalam elemen dengan id #content
+        document.getElementById("body-content").innerHTML = teamHTML;
     });
 }

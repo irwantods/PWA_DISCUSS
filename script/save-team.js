@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var isFromSaved = urlParams.get("saved");
 
     var btnSave = document.getElementById("save");
-    var btnDelete = document.getElementById("delete");
+    var btnDelete = document.getElementById("remove");
 
     if (isFromSaved) {
         // Hide fab jika dimuat dari indexed db
@@ -14,26 +14,21 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         btnSave.style.display = 'block';
         btnDelete.style.display = 'none';
-        var item = getTeamById();
     }
+    var item = getTeamById();
     save.onclick = () => {
         console.log("Tombol FAB di klik.");
         item.then((team) => {
             saveForLater(team);
         });
     };
-});
-
-
-const idTeam = new URLSearchParams(window.location.search).get("id");
-delete.onclick = () => {
-    console.log("Tombol hapus di klik");
-    deleteTeam(parseInt(idTeam));
-};
-
-
-var elems = document.querySelectorAll('.fixed-action-btn');
-M.FloatingActionButton.init(elems, {
-    direction: 'left',
-    hoverEnabled: false
+    var idTeam = urlParams.get("id");
+    remove.onclick = () => {
+        console.log("Tombol hapus di klik");
+        item.then((idTeam) => {
+            deleteTeam(idTeam);
+        });
+        window.location.href = '/index.html#saved'
+        getSavedTeams();
+    };
 });

@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
-                if (this.status != 200)
-                    return;
+                if (this.status != 200) return;
                 // Muat daftar tautan menu
                 document.querySelectorAll(".topnav, .sidenav").forEach((elm) => {
                     elm.innerHTML = xhttp.responseText;
@@ -36,8 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Mengambil halaman konten
     var page = window.location.hash.substr(1);
-    if (page == "")
-        page = "home";
+    if (page == "") page = "home";
     loadPage(page);
 
     function loadPage(page) {
@@ -54,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     // init select
                     {
-                        var elems = document.querySelectorAll('select');
-                        M.FormSelect.init(elems);
+                        var select = document.querySelectorAll('select');
+                        M.FormSelect.init(select);
                     }
                     // menjalankan slider
                     {
@@ -71,9 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     // Slider berakhir
                     if (page === 'standing') {
-                        getAllStandings();
+                        getValueStanding();
                     } else if (page === 'team') {
-                        getAllTeam();
+                        getSelectedValue()
                     } else if (page === "saved") {
                         getSavedTeams();
                     }
@@ -90,3 +88,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+function getSelectedValue() {
+    var select = document.querySelector('select#id-competition');
+    select.addEventListener('change', (e) => {
+        const id = e.target.value
+        getAllTeam(id);
+    })
+}
+
+function getValueStanding() {
+    var select = document.querySelector('select#id-competition');
+    select.addEventListener('change', (e) => {
+        const id = e.target.value
+        getAllStandings(id);
+    })
+}

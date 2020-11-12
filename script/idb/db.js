@@ -32,18 +32,10 @@ function getAll() {
     });
 }
 
-const dbDeleteFav = teamId => {
-    return new Promise((resolve, reject) => {
-        idbPromised.then(db => {
-            const transaction = db.transaction("teams", `readwrite`);
-            transaction.objectStore("teams").delete(teamId);
-            return transaction;
-        }).then(transaction => {
-            if (transaction.complete) {
-                resolve(true)
-            } else {
-                reject(new Error(transaction.onerror))
-            }
-        })
+function deleteTeam(team) {
+    dbPromised.then((db) => {
+        var tx = db.transaction("teams", "readwrite");
+        tx.objectStore("teams").delete(team.id);
+        return tx.complete;
     })
 };

@@ -3,8 +3,8 @@ const BASE_URL = "https://api.football-data.org/v2/";
 
 const LEAGUE_ID = 2021;
 
-const ENDPOINT_COMPETITION = `${BASE_URL}competitions/${LEAGUE_ID}/standings`;
-const ENDPOINT_TEAM = `${BASE_URL}competitions/${LEAGUE_ID}/teams`;
+const ENDPOINT_COMPETITION = `${BASE_URL}competitions/`;
+const ENDPOINT_TEAM = `${BASE_URL}competitions/`;
 
 const fetchAPI = url => {
     return fetch(url, {
@@ -26,9 +26,9 @@ const fetchAPI = url => {
         })
 };
 // load api standing
-function getAllStandings() {
+function getAllStandings(id) {
     if ("caches" in window) {
-        caches.match(ENDPOINT_COMPETITION).then((response) => {
+        caches.match((`${ENDPOINT_COMPETITION}${id}/standings`)).then((response) => {
             if (response) {
                 response.json().then((data) => {
                     console.log("Competition Data: " + data);
@@ -38,7 +38,7 @@ function getAllStandings() {
         })
     }
 
-    fetchAPI(ENDPOINT_COMPETITION)
+    fetchAPI((`${ENDPOINT_COMPETITION}${id}/standings`))
         .then(data => {
             showStanding(data);
         })
@@ -48,64 +48,66 @@ function getAllStandings() {
 }
 
 function showStanding(data) {
-    let standings = "";
     let standingElement = document.getElementById("homeStandings");
-
+    let standingData = ''
     data.standings[0].table.forEach((standing) => {
-        standings += `
-                <tr>
-                    <td><img src="${standing.team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="30px" alt="badge"/></td>
-                    <td>${standing.team.name}</td>
-                    <td>${standing.won}</td>
-                    <td>${standing.draw}</td>
-                    <td>${standing.lost}</td>
-                    <td>${standing.points}</td>
-                    <td>${standing.goalsFor}</td>
-                    <td>${standing.goalsAgainst}</td>
-                    <td>${standing.goalDifference}</td>
-                </tr>
-        `;
+        standingData += ` 
+        <tr>
+        <td><img src="${standing.team.crestUrl.replace(/^http:\/\//i, 'https://')}" width="30px" alt="badge"/></td>
+        <td>${standing.team.name}</td>
+        <td>${standing.won}</td>
+        <td>${standing.draw}</td>
+        <td>${standing.lost}</td>
+        <td>${standing.points}</td>
+        <td>${standing.goalsFor}</td>
+        <td>${standing.goalsAgainst}</td>
+        <td>${standing.goalDifference}</td>
+    </tr>
+            `;
     });
 
-    standingElement.innerHTML = `
-                <div style="padding-left: 24px; padding-right: 24px; margin-top: 30px;">
+    standingElement.innerHTML `
+    <div style="padding-left: 24px; padding-right: 24px; margin-top: 30px;">
 
-                <table class="striped responsive-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Team Name</th>
-                            <th>won</th>
-                            <th>draw</th>
-                            <th>lost</th>
-                            <th>points</th>
-                            <th>goals For</th>
-                            <th>goals Against</th>
-                            <th>goal Difference</th>
-                        </tr>
-                     </thead>
-                    <tbody id="standing">
-                        ${standings}
-                    </tbody>
-                </table>
-                
-                </div>
-    `;
+    <table class="striped responsive-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Team Name</th>
+                <th>won</th>
+                <th>draw</th>
+                <th>lost</th>
+                <th>points</th>
+                <th>goals For</th>
+                <th>goals Against</th>
+                <th>goal Difference</th>
+            </tr>
+         </thead>
+        <tbody id="standing">
+            ${standingData}
+        </tbody>
+    </table>
+    
+    </div>`;
+    standingElement.innerHTML = standingData
 }
 
 // load api team
-function getAllTeam() {
+function getAllTeam(id) {
     if ("caches" in window) {
-        caches.match(ENDPOINT_TEAM).then((response) => {
+        caches.match((`
+            $ { ENDPOINT_TEAM }
+            $ { id }
+            /teams`)).then((response) => {
             if (response) {
-                response.json().then((data) => {
+                response.json().then(function(data) {
                     console.log("Team Data: " + data);
                     showTeam(data);
                 })
             }
         })
     }
-    fetchAPI(ENDPOINT_TEAM)
+    fetchAPI((`${ENDPOINT_TEAM}${id}/teams`))
         .then(data => {
             showTeam(data);
         })
@@ -115,11 +117,11 @@ function getAllTeam() {
 }
 
 function showTeam(data) {
-    // let teams = "";
-    let teamElement = document.getElementById("homeTeams");
 
+    let teamElement = document.getElementById("homeTeams");
+    let teamData = ''
     data.teams.forEach((team) => {
-        teamElement.innerHTML += `
+        teamData += `
         <div class="col s12 m6 team-card">
             <div class="card">
             <a href="./pages/detail-team.html?id=${team.id}">
@@ -140,18 +142,19 @@ function showTeam(data) {
         </div>
         `;
     });
+    teamElement.innerHTML = teamData
 }
 
 // render detail team
 function getTeamById() {
-    return new Promise((resolve, reject) => {
+    return new Promise(function(resolve, reject) {
         // Ambil nilai query parameter (?id=)
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
 
 
         if ("caches" in window) {
-            caches.match(`${BASE_URL}teams/${idParam}`).then((response) => {
+            caches.match(`${BASE_URL}teams/${idParam}`).then(function(response) {
                 if (response) {
                     response.json()
                         .then(team => {
@@ -167,8 +170,9 @@ function getTeamById() {
               <td>${squad.role}</td>
              </tr>
           `;
-                            });
-                            const teamHTML = `
+                            })
+                            const teamHTML =
+                                `
                 <div class="row">
                 <div class="col s12 m3">
                     <div class="row">
@@ -242,8 +246,9 @@ function getTeamById() {
       <td>${squad.role}</td>
      </tr>
   `;
-                });
-                const teamHTML = `
+                })
+                const teamHTML =
+                    `
                 <div class="row">
                     <div class="col s12 m3">
                         <div class="row">
@@ -284,7 +289,7 @@ function getTeamById() {
                         </table>
                     </div>
   
-                </div>`;
+                </div>`
                 document.getElementById("body-content").innerHTML = teamHTML;
                 // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
                 resolve(team);

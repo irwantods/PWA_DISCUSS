@@ -9,7 +9,7 @@ var urlsToCache = [
     "/pages/saved.html",
     "/pages/standing.html",
     "/pages/team.html",
-    "/pages/detail-team.html",
+    "/detail-team.html",
     // css
     "/asset/css/materialize.min.css",
     "/asset/css/style.css",
@@ -31,7 +31,7 @@ var urlsToCache = [
     "/script/preloader.js",
     "/script/save-team.js",
     "/script/nav.js",
-    "/script/sw-register.js",
+    "/sw-register.js",
     "/script/materialize/materialize.min.js",
     "/script/api/api.js",
     "/script/idb/idb.js",
@@ -72,7 +72,7 @@ self.addEventListener("activate", function(event) {
     );
 });
 self.addEventListener("fetch", function(event) {
-    const base_url = "https://api.football-data.org/v2/";
+    let base_url = "https://api.football-data.org/v2/";
     if (event.request.url.indexOf(base_url) > -1) {
         event.respondWith(
             caches.open(CACHE_NAME).then(function(cache) {
@@ -89,4 +89,25 @@ self.addEventListener("fetch", function(event) {
             })
         )
     }
+});
+
+self.addEventListener('push', function(event) {
+    var body;
+    if (event.data) {
+        body = event.data.text();
+    } else {
+        body = 'Push message no payload';
+    }
+    var options = {
+        body: body,
+        icon: '/icon.png',
+        vibrate: [100, 50, 100],
+        data: {
+            dateOfArrival: Date.now(),
+            primaryKey: 1
+        }
+    };
+    event.waitUntil(
+        self.registration.showNotification('Push Notification', options)
+    );
 });

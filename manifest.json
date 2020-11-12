@@ -6,6 +6,7 @@
     "display": "standalone",
     "theme_color": "#393e46",
     "background_color": "#EEEEEE",
+    "gcm_sender_id": "521247596801",
     "icons": [{
             "src": "./asset/img/soccer-ball-512.png",
             "sizes": "512x512",

@@ -1,7 +1,7 @@
 const API_KEY = "f22f93fc8c044a9fb6f67dbb29dc7385";
 const BASE_URL = "https://api.football-data.org/v2/";
 
-const LEAGUE_ID = 2021;
+// const LEAGUE_ID = 2021;
 
 const ENDPOINT_COMPETITION = `${BASE_URL}competitions/`;
 const ENDPOINT_TEAM = `${BASE_URL}competitions/`;
@@ -63,10 +63,10 @@ function showStanding(data) {
         <td>${standing.goalsAgainst}</td>
         <td>${standing.goalDifference}</td>
     </tr>
-            `;
+            `
     });
 
-    standingElement.innerHTML `
+    `
     <div style="padding-left: 24px; padding-right: 24px; margin-top: 30px;">
 
     <table class="striped responsive-table">
@@ -124,7 +124,7 @@ function showTeam(data) {
         teamData += `
         <div class="col s12 m6 team-card">
             <div class="card">
-            <a href="./pages/detail-team.html?id=${team.id}">
+            <a href="./detail-team.html?id=${team.id}">
                 <div class="card-image team-img waves-effect waves-block waves-light">
                     <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" class="responsive-img"/>
                 </div> 
@@ -311,7 +311,7 @@ function getSavedTeams() {
             teamsHTML += `
             <div class="col s12 m6 team-card">
                 <div class="card">
-                <a href="./pages/detail-team.html?id=${team.id}&saved=true">
+                <a href="./detail-team.html?id=${team.id}&saved=true">
                     <div class="card-image team-img waves-effect waves-block waves-light">
                         <img src="${team.crestUrl.replace(/^http:\/\//i, 'https://')}" class="responsive-img"/>
                     </div> 

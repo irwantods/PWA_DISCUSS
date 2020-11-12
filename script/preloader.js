@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     function removePreload() {
         $('.preloader-background').delay(1700).fadeOut('slow');
 
@@ -6,5 +6,5 @@ document.addEventListener("DOMContentLoaded", function() {
             .delay(1700)
             .fadeOut();
     }
-    removePreload()
+    removePreload();
 });

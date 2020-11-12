@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     // Fungsi aktif sidebar nav
     var elems = document.querySelectorAll(".sidenav");
     M.Sidenav.init(elems);
@@ -8,15 +8,16 @@ document.addEventListener("DOMContentLoaded", function() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4) {
-                if (this.status != 200) return;
+                if (this.status != 200)
+                    return;
                 // Muat daftar tautan menu
-                document.querySelectorAll(".topnav, .sidenav").forEach(function(elm) {
+                document.querySelectorAll(".topnav, .sidenav").forEach((elm) => {
                     elm.innerHTML = xhttp.responseText;
                 });
 
                 // Daftarkan event listener untuk setiap tautan menu
-                document.querySelectorAll(".sidenav a, .topnav a").forEach(function(elm) {
-                    elm.addEventListener("click", function(event) {
+                document.querySelectorAll(".sidenav a, .topnav a").forEach((elm) => {
+                    elm.addEventListener("click", (event) => {
                         // Tutup sidenav
                         var sidenav = document.querySelector(".sidenav");
                         M.Sidenav.getInstance(sidenav).close();
@@ -35,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Mengambil halaman konten
     var page = window.location.hash.substr(1);
-    if (page == "") page = "home";
+    if (page == "")
+        page = "home";
     loadPage(page);
 
     function loadPage(page) {
@@ -46,20 +48,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (this.status == 200) {
                     content.innerHTML = xhttp.responseText;
                     // init parallax
-                    // if (page === 'home', 'standing')
                     {
                         var elems = document.querySelectorAll('.parallax');
                         M.Parallax.init(elems);
                     }
                     // init select
-                    // if (page === 'standing') 
                     {
                         var elems = document.querySelectorAll('select');
                         M.FormSelect.init(elems);
                     }
-                    // init select
                     // menjalankan slider
-                    // if (page === 'home') 
                     {
 
                         // init slider
@@ -72,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         });
                     }
                     // Slider berakhir
-
                     if (page === 'standing') {
                         getAllStandings();
                     } else if (page === 'team') {
@@ -80,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else if (page === "saved") {
                         getSavedTeams();
                     }
+
                 } else if (this.status == 404) {
                     content.innerHTML = "<p>Ooooops............. Halaman tidak ditemukan.</p>";
                 } else {

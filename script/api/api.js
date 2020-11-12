@@ -30,7 +30,7 @@ function getAllStandings() {
     if ("caches" in window) {
         caches.match(ENDPOINT_COMPETITION).then((response) => {
             if (response) {
-                response.json().then(function(data) {
+                response.json().then((data) => {
                     console.log("Competition Data: " + data);
                     showStanding(data);
                 })
@@ -98,7 +98,7 @@ function getAllTeam() {
     if ("caches" in window) {
         caches.match(ENDPOINT_TEAM).then((response) => {
             if (response) {
-                response.json().then(function(data) {
+                response.json().then((data) => {
                     console.log("Team Data: " + data);
                     showTeam(data);
                 })
@@ -144,14 +144,14 @@ function showTeam(data) {
 
 // render detail team
 function getTeamById() {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         // Ambil nilai query parameter (?id=)
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
 
 
         if ("caches" in window) {
-            caches.match(`${BASE_URL}teams/${idParam}`).then(function(response) {
+            caches.match(`${BASE_URL}teams/${idParam}`).then((response) => {
                 if (response) {
                     response.json()
                         .then(team => {
@@ -167,9 +167,8 @@ function getTeamById() {
               <td>${squad.role}</td>
              </tr>
           `;
-                            })
-                            const teamHTML =
-                                `
+                            });
+                            const teamHTML = `
                 <div class="row">
                 <div class="col s12 m3">
                     <div class="row">
@@ -243,9 +242,8 @@ function getTeamById() {
       <td>${squad.role}</td>
      </tr>
   `;
-                })
-                const teamHTML =
-                    `
+                });
+                const teamHTML = `
                 <div class="row">
                     <div class="col s12 m3">
                         <div class="row">
@@ -286,7 +284,7 @@ function getTeamById() {
                         </table>
                     </div>
   
-                </div>`
+                </div>`;
                 document.getElementById("body-content").innerHTML = teamHTML;
                 // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
                 resolve(team);
@@ -299,11 +297,11 @@ function getTeamById() {
 }
 
 function getSavedTeams() {
-    getAll().then(function(teams) {
+    getAll().then((teams) => {
         console.log(teams);
         // Menyusun komponen card artikel secara dinamis
         var teamsHTML = "";
-        teams.forEach(function(team) {
+        teams.forEach((team) => {
             // var description = team.post_content.substring(0, 100);
             teamsHTML += `
             <div class="col s12 m6 team-card">
@@ -327,7 +325,7 @@ function getSavedTeams() {
             `;
         });
         // Sisipkan komponen card ke dalam elemen dengan id #body-content
-        document.getElementById("body-content").innerHTML = teamsHTML;
+        document.getElementById("teams").innerHTML = teamsHTML;
     });
 }
 
@@ -335,7 +333,7 @@ function getSavedTeamById() {
     var urlParams = new URLSearchParams(window.location.search);
     var idParam = urlParams.get("id");
 
-    getTeamById(idParam).then(function(team) {
+    getTeamById(idParam).then((team) => {
         const teamHTML = `
         <div class="row">
                     <div class="col s12 m3">

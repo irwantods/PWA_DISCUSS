@@ -1,12 +1,12 @@
  // Mendaftarkan service worker
  if ("serviceWorker" in navigator) {
-     window.addEventListener("load", function() {
+     window.addEventListener("load", () => {
          navigator.serviceWorker
              .register("/service-worker.js")
-             .then(function() {
+             .then(() => {
                  console.log("Pendaftaran ServiceWorker Berhasil.");
              })
-             .catch(function() {
+             .catch(() => {
                  console.log("Pendaftaram ServiceWorker Gagal.");
              });
      });

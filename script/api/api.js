@@ -3,6 +3,7 @@ const BASE_URL = "https://api.football-data.org/v2/";
 
 // const LEAGUE_ID = 2021;
 
+
 const ENDPOINT_COMPETITION = `${BASE_URL}competitions/`;
 const ENDPOINT_TEAM = `${BASE_URL}competitions/`;
 
@@ -66,7 +67,8 @@ function showStanding(data) {
             `
     });
 
-    `
+    standingElement.innerHTML =
+        `
     <div style="padding-left: 24px; padding-right: 24px; margin-top: 30px;">
 
     <table class="striped responsive-table">
@@ -89,7 +91,6 @@ function showStanding(data) {
     </table>
     
     </div>`;
-    standingElement.innerHTML = standingData
 }
 
 // load api team
@@ -152,7 +153,7 @@ function getTeamById() {
         const urlParams = new URLSearchParams(window.location.search);
         const idParam = urlParams.get("id");
 
-
+        showPreloader()
         if ("caches" in window) {
             caches.match(`${BASE_URL}teams/${idParam}`).then(function(response) {
                 if (response) {
@@ -214,8 +215,9 @@ function getTeamById() {
                 </div>
 
             </div>
-                `;
-                            // Sisipkan komponen card ke dalam elemen dengan id #content
+                `
+                            document.querySelector('.preloader-background').classList.add('invisible')
+                                // Sisipkan komponen card ke dalam elemen dengan id #content
                             document.getElementById("body-content").innerHTML = teamHTML;
                             // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
                             resolve(team);

@@ -1,4 +1,4 @@
-const CACHE_NAME = "PWAkedua-v0";
+const CACHE_NAME = "PWAkedua-v6";
 var urlsToCache = [
     "/",
     "/manifest.json",
@@ -14,19 +14,19 @@ var urlsToCache = [
     "/asset/css/materialize.min.css",
     "/asset/css/style.css",
     "https://fonts.googleapis.com/icon?family=Material+Icons",
-    // "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js",
     "/asset/css/Quicksand-VariableFont_wght.ttf",
     // aset image home
-    "./asset/img/10.webp",
-    "./asset/img/8.webp",
-    "./asset/img/5.webp",
-    "./asset/img/2.webp",
-    "./asset/img/11.webp",
-    "./asset/img/3.webp",
+    "./asset/img/s3.webp",
+    "./asset/img/s5.webp",
+    "./asset/img/s14.webp",
+    "./asset/img/s22.webp",
+    "./asset/img/s21.webp",
+    "./asset/img/s18.webp",
+    "./asset/img/s13.webp",
+    "./asset/img/s16.webp",
     "./asset/img/save.png",
     "./asset/img/pwa.png",
     "./asset/img/update.png",
-    "./asset/img/6.webp",
     //file JS
     "/script/preloader.js",
     "/script/save-team.js",
@@ -108,6 +108,6 @@ self.addEventListener('push', function(event) {
         }
     };
     event.waitUntil(
-        self.registration.showNotification('Push Notification', options)
+        self.registration.showNotification('All About Soccer', options)
     );
 });

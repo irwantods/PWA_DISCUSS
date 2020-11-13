@@ -1,7 +1,18 @@
-function removePreload() {
-    $('.preloader-background').delay(1700).fadeOut('slow');
-
-    $('.preloader-wrapper')
-        .delay(1700)
-        .fadeOut();
-}
+    function showPreloader() {
+        document.querySelector('.preloader-background').innerHTML =
+            `
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    `
+    }

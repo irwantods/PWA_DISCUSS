@@ -96,15 +96,13 @@ function showStanding(data) {
 // load api team
 function getAllTeam(id) {
     if ("caches" in window) {
-        caches.match((`
-            $ { ENDPOINT_TEAM }
-            $ { id }
-            /teams`)).then((response) => {
+        caches.match((`${ENDPOINT_TEAM}${id}/teams`)).then((response) => {
             if (response) {
                 response.json().then(function(data) {
                     console.log("Team Data: " + data);
                     showTeam(data);
                 })
+
             }
         })
     }
@@ -142,8 +140,11 @@ function showTeam(data) {
                 </div>
         </div>
         `;
+        // sesi loader berakhir
     });
     teamElement.innerHTML = teamData
+
+
 }
 
 // render detail team
@@ -216,7 +217,9 @@ function getTeamById() {
 
             </div>
                 `
-                            document.querySelector('.preloader-background').classList.add('invisible')
+                                // sesi loader berakhir
+                            document.querySelector('#preloader').classList.remove('preloader-background')
+                            document.querySelector('#preloader').classList.add('invisible')
                                 // Sisipkan komponen card ke dalam elemen dengan id #content
                             document.getElementById("body-content").innerHTML = teamHTML;
                             // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
@@ -291,7 +294,12 @@ function getTeamById() {
                         </table>
                     </div>
   
-                </div>`
+                </div>
+                `
+                    // sesi loader berakhir
+                document.querySelector('#preloader').classList.remove('preloader-background')
+                document.querySelector('#preloader').classList.add('invisible')
+                    // Sisipkan komponen card ke dalam elemen dengan id #content
                 document.getElementById("body-content").innerHTML = teamHTML;
                 // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
                 resolve(team);

@@ -3,7 +3,6 @@ const BASE_URL = "https://api.football-data.org/v2/";
 
 // const LEAGUE_ID = 2021;
 
-
 const ENDPOINT_COMPETITION = `${BASE_URL}competitions/`;
 const ENDPOINT_TEAM = `${BASE_URL}competitions/`;
 
@@ -95,11 +94,20 @@ function showStanding(data) {
 
 // load api team
 function getAllTeam(id) {
+    const preloader = document.querySelector('#preloader')
+    preloader.removeAttribute('class')
+    preloader.classList.add('preloader-background')
+    showPreloader()
     if ("caches" in window) {
-        caches.match((`${ENDPOINT_TEAM}${id}/teams`)).then((response) => {
+        caches.match((`
+        ${ENDPOINT_TEAM}
+        ${id}
+        /teams`)).then((response) => {
             if (response) {
                 response.json().then(function(data) {
                     console.log("Team Data: " + data);
+                    preloader.classList.remove('preloader-background')
+                    preloader.classList.add('invisible')
                     showTeam(data);
                 })
 
@@ -108,6 +116,8 @@ function getAllTeam(id) {
     }
     fetchAPI((`${ENDPOINT_TEAM}${id}/teams`))
         .then(data => {
+            preloader.classList.remove('preloader-background')
+            preloader.classList.add('invisible')
             showTeam(data);
         })
         .catch(error => {

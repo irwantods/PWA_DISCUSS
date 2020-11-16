@@ -27,11 +27,17 @@ const fetchAPI = url => {
 };
 // load api standing
 function getAllStandings(id) {
+    const preloader = document.querySelector('#preloader')
+    preloader.removeAttribute('class')
+    preloader.classList.add('preloader-background')
+    showPreloader()
     if ("caches" in window) {
         caches.match((`${ENDPOINT_COMPETITION}${id}/standings`)).then((response) => {
             if (response) {
                 response.json().then((data) => {
                     console.log("Competition Data: " + data);
+                    preloader.classList.remove('preloader-background')
+                    preloader.classList.add('invisible')
                     showStanding(data);
                 })
             }
@@ -40,6 +46,8 @@ function getAllStandings(id) {
 
     fetchAPI((`${ENDPOINT_COMPETITION}${id}/standings`))
         .then(data => {
+            preloader.classList.remove('preloader-background')
+            preloader.classList.add('invisible')
             showStanding(data);
         })
         .catch(error => {
@@ -126,7 +134,6 @@ function getAllTeam(id) {
 }
 
 function showTeam(data) {
-
     let teamElement = document.getElementById("homeTeams");
     let teamData = ''
     data.teams.forEach((team) => {
@@ -319,6 +326,24 @@ function getTeamById() {
     });
 
 
+}
+
+function favNull() {
+    getAll(null).then((favNull) => {
+        console.log(favNull);
+        teams.innerHTML = `
+        <div id="favnull">
+    <div class="col s12 m4">
+        <div class="icon-block">
+            <h2 class="center">
+                <object id="front-page-logo" type="image/png" data="/asset/img/data_null.png"> </object>
+            </h2>
+            <p class="center">Oops... <br> Your favorite is empty you can add favorite team in this <a href="/index.html#team" target="_top">page.</a></p>
+        </div>
+    </div>
+</div>`
+
+    });
 }
 
 function getSavedTeams() {

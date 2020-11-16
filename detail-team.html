@@ -34,10 +34,14 @@
     <!-- Akhir Navigasi -->
 
     <div id="body-content"></div>
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large">
-            <i class="large material-icons" onclick="M.toast({html: 'I am a toast', completeCallback: function(){alert('Your toast was dismissed')}})" id="save">save</i>
-            <i class="large material-icons" id="remove">delete</i>
+    <div class="fixed-action-btn" id="save">
+        <a onclick="M.toast({html: 'Team berhasil ditambahkan !', classes: 'rounded'})" class="btn-floating btn-large pulse">
+            <i class="large material-icons">save</i>
+        </a>
+    </div>
+    <div class="fixed-action-btn" id="remove">
+        <a onclick="M.toast({html: 'Team berhasil dihapus !', classes: 'rounded'})" class="btn-floating btn-large pulse">
+            <i class="large material-icons">delete</i>
         </a>
     </div>
     <div id="preloader" class="preloader-background"></div>

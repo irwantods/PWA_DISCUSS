@@ -20,7 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Tombol FAB di klik.");
         item.then((team) => {
             saveForLater(team);
-        });
+        })
+        btnSave.style.display = 'none';
+        btnDelete.style.display = 'block';
     };
     var idTeam = urlParams.get("id");
     remove.onclick = () => {

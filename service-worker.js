@@ -1,4 +1,5 @@
-const CACHE_NAME = "PWAkedua-v6";
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+const CACHE_NAME = "PWAkedua-v8";
 var urlsToCache = [
     "/",
     "/manifest.json",
@@ -27,6 +28,7 @@ var urlsToCache = [
     "./asset/img/save.png",
     "./asset/img/pwa.png",
     "./asset/img/update.png",
+    "./asset/img/data_null.png",
     //file JS
     "/script/preloader.js",
     "/script/save-team.js",

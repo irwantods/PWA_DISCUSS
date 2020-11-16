@@ -1,8 +1,6 @@
 const API_KEY = "f22f93fc8c044a9fb6f67dbb29dc7385";
 const BASE_URL = "https://api.football-data.org/v2/";
 
-// const LEAGUE_ID = 2021;
-
 const ENDPOINT_COMPETITION = `${BASE_URL}competitions/`;
 const ENDPOINT_TEAM = `${BASE_URL}competitions/`;
 
@@ -25,7 +23,7 @@ const fetchAPI = url => {
             console.log(err)
         })
 };
-// load api standing
+// load api standing dari cache
 function getAllStandings(id) {
     const preloader = document.querySelector('#preloader')
     preloader.removeAttribute('class')
@@ -43,7 +41,7 @@ function getAllStandings(id) {
             }
         })
     }
-
+    // mengambil data standing dari server
     fetchAPI((`${ENDPOINT_COMPETITION}${id}/standings`))
         .then(data => {
             preloader.classList.remove('preloader-background')
@@ -54,7 +52,7 @@ function getAllStandings(id) {
             console.log(error)
         })
 }
-
+// menampilkan data yang sudah di ambil dari cache
 function showStanding(data) {
     let standingElement = document.getElementById("homeStandings");
     let standingData = ''
@@ -100,7 +98,7 @@ function showStanding(data) {
     </div>`;
 }
 
-// load api team
+// load api team dari cache
 function getAllTeam(id) {
     const preloader = document.querySelector('#preloader')
     preloader.removeAttribute('class')
@@ -122,6 +120,7 @@ function getAllTeam(id) {
             }
         })
     }
+    // mengambil data api team dari server
     fetchAPI((`${ENDPOINT_TEAM}${id}/teams`))
         .then(data => {
             preloader.classList.remove('preloader-background')
@@ -164,7 +163,7 @@ function showTeam(data) {
 
 }
 
-// render detail team
+// mengambil data detail team
 function getTeamById() {
     return new Promise(function(resolve, reject) {
         // Ambil nilai query parameter (?id=)
@@ -327,26 +326,30 @@ function getTeamById() {
 
 
 }
-
+// jika belum ada data fav team
 function favNull() {
-    getAll(null).then((favNull) => {
-        console.log(favNull);
-        teams.innerHTML = `
+    getAll().then((favNull) => {
+        const teams = document.querySelector('#favnull')
+        if (favNull.length == 0) {
+            teams.innerHTML = `
         <div id="favnull">
-    <div class="col s12 m4">
-        <div class="icon-block">
-            <h2 class="center">
-                <object id="front-page-logo" type="image/png" data="/asset/img/data_null.png"> </object>
-            </h2>
-            <p class="center">Oops... <br> Your favorite is empty you can add favorite team in this <a href="/index.html#team" target="_top">page.</a></p>
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center"><object id="front-page-logo" type="image/png" data="/asset/img/data_null.png"> </object></h2>
+                    <p class="center">Oops... <br> Your favorite is empty you can add favorite team in this <a href="#team" id="directTeam">page.</a></p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>`
-
+       `
+        }
+        document.querySelector('#directTeam').addEventListener('click', () => {
+            loadPage("team")
+        })
     });
 }
-
+// menampilkan data fav jika sudah tersedia dari IDB
 function getSavedTeams() {
+    favNull()
     getAll().then((teams) => {
         console.log(teams);
         // Menyusun komponen card artikel secara dinamis
@@ -378,7 +381,7 @@ function getSavedTeams() {
         document.getElementById("teams").innerHTML = teamsHTML;
     });
 }
-
+// jika team di klik maka menampilkan detail dari team tersebut dari IDB
 function getSavedTeamById() {
     var urlParams = new URLSearchParams(window.location.search);
     var idParam = urlParams.get("id");

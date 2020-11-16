@@ -6,12 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
     var btnDelete = document.getElementById("remove");
 
     if (isFromSaved) {
-        // Hide fab jika dimuat dari indexed db
+        // menampilkan button delete menyembunyikan tombol save 
         btnSave.style.display = 'none';
         btnDelete.style.display = 'block';
         // ambil artikel lalu tampilkan
         getSavedTeamById();
     } else {
+        // menampilkan button save menyembunyikan tombol delete
         btnSave.style.display = 'block';
         btnDelete.style.display = 'none';
     }
@@ -29,8 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Tombol hapus di klik");
         item.then((idTeam) => {
             deleteTeam(idTeam);
-        });
-        window.location.href = '/index.html#saved'
-        getSavedTeams();
+        })
+        btnSave.style.display = 'block';
+        btnDelete.style.display = 'none';
+        // window.location.href = '/index.html#saved'
+        // getSavedTeams();
     };
 });

@@ -1,5 +1,5 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
-const CACHE_NAME = "PWAkedua-v8";
+const CACHE_NAME = "PWAkedua-v10";
 var urlsToCache = [
     "/",
     "/manifest.json",
